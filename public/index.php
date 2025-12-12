@@ -31,8 +31,16 @@ foreach ($autoloadPaths as $autoloadPath) {
 }
 
 if (!$autoloaded) {
-    fwrite(\STDERR, "Error: Composer autoloader not found. Run 'composer install'.\n");
-    exit(1);
+    if (PHP_SAPI === 'cli') {
+        fwrite(\STDERR, "Error: Composer autoloader not found. Run 'composer install'.\n");
+        exit(1);
+    } else {
+        error_log("Error: Composer autoloader not found. Run 'composer install'.");
+        http_response_code(500);
+        header('Content-Type: application/json');
+        echo json_encode(['error' => 'Server configuration error']);
+        exit(1);
+    }
 }
 
 // Parse command line arguments when running as CLI
@@ -40,6 +48,14 @@ $configPath = null;
 if (PHP_SAPI === 'cli') {
     $options = getopt('c:', ['config:']);
     $configPath = $options['config'] ?? $options['c'] ?? null;
+}
+
+// Auto-detect config.json in parent directory if not specified
+if ($configPath === null) {
+    $defaultConfigPath = __DIR__ . '/../config.json';
+    if (file_exists($defaultConfigPath)) {
+        $configPath = $defaultConfigPath;
+    }
 }
 
 // Load configuration
@@ -56,8 +72,16 @@ try {
         }
     }
 } catch (\Throwable $e) {
-    fwrite(\STDERR, "Configuration error: {$e->getMessage()}\n");
-    exit(1);
+    if (PHP_SAPI === 'cli') {
+        fwrite(\STDERR, "Configuration error: {$e->getMessage()}\n");
+        exit(1);
+    } else {
+        error_log("Configuration error: {$e->getMessage()}");
+        http_response_code(500);
+        header('Content-Type: application/json');
+        echo json_encode(['error' => 'Configuration error']);
+        exit(1);
+    }
 }
 
 // Create router and register routes
