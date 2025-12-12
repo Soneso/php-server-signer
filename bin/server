@@ -1,0 +1,15 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types=1);
+
+/**
+ * Server startup script for PHP Server Signer
+ *
+ * Usage:
+ *   bin/server                    # Load from environment variables
+ *   bin/server -c config.json     # Load from config file
+ *   bin/server --config=config.json
+ */
+
+require __DIR__ . '/../public/index.php';

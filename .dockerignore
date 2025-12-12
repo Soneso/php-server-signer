@@ -1,0 +1,42 @@
+# Git files
+.git
+.gitignore
+.github
+
+# IDE files
+.idea
+.vscode
+*.swp
+*.swo
+*~
+
+# Composer
+/vendor
+
+# Testing
+/tests
+phpunit.xml
+.phpunit.result.cache
+/coverage
+
+# Environment files
+.env
+config.json
+
+# Documentation
+*.md
+/docs
+
+# Test scripts
+test_*.php
+test-*.sh
+
+# Claude AI
+.claude
+
+# Build artifacts
+composer.lock
+
+# Logs
+*.log
+/logs

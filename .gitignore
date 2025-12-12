@@ -1,0 +1,16 @@
+/vendor/
+/config.json
+.env
+.phpunit.result.cache
+composer.lock
+.idea/
+.vscode/
+.DS_Store
+*.log
+/public/.htaccess
+test_sep10.php
+test_endpoint.php
+test-batch2.sh
+/coverage/
+*.cache
+.claude/
